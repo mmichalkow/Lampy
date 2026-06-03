@@ -1,7 +1,18 @@
-<!DOCTYPE html><html lang="pl" class="h-full"><head>
+<!DOCTYPE html><html lang="pl" class="h-full">
+
+
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-id="th-modified">Lampy i Dekoracje – Handmade</title>
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <meta name="msapplication-TileColor" content="#1F1F1F">
+  <meta name="theme-color" content="#1F1F1F">
+
+  <title>Lampy i Dekoracje – Handmade</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&amp;family=Playfair+Display:wght@400;600;700;900&amp;family=Montserrat:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
@@ -382,20 +393,22 @@
       flex-shrink: 0;
     }
 
-/* ==================== GRIDS ==================== */
+    /* ==================== GRIDS ==================== */
     
     /* Grid dla 4 zdjęć w sekcji Rzemiosło (2x2) */
     .process-photos {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1.4rem;
+      margin-bottom: 3.5rem;           /* <-- dodane */
     }
 
-    /* Grid dla galerii lamp (Oferta) - max 3 kolumny */
+    /* Grid dla galerii lamp (Oferta) */
     .lamp-photos-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.5rem;
+      margin-bottom: 4rem;             /* <-- to jest najważniejsze */
     }
 
     /* Desktop - sztywno 3 kolumny dla galerii */
@@ -405,22 +418,24 @@
       }
     }
 
-    /* Tablet i mniejsze */
+    /* Tablet */
     @media (max-width: 768px) {
       .process-photos {
-        grid-template-columns: repeat(2, 1fr);   /* nadal 2 kolumny */
+        grid-template-columns: repeat(2, 1fr);
       }
       
       .lamp-photos-grid {
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        margin-bottom: 3.5rem;
       }
     }
 
-    /* Telefon - wszystko w jednej kolumnie */
+    /* Telefon */
     @media (max-width: 640px) {
       .process-photos,
       .lamp-photos-grid {
         grid-template-columns: 1fr;
+        margin-bottom: 3rem;
       }
     }
     .process-photo-slot {
@@ -782,35 +797,96 @@
       transform: translateY(0);
     }
 
-    /* ── Nav bar ── */
-    #navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 1.2rem 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: background 0.4s ease, box-shadow 0.4s ease;
-    }
+/* ── Nav bar ── */
+#navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0,0,0,0.15);
+  transition: all 0.4s ease;
+}
 
-    #navbar.scrolled {
-      background: rgba(20,14,6,0.95);
-      box-shadow: 0 1px 30px rgba(0,0,0,0.5);
-      backdrop-filter: blur(10px);
-    }
+#navbar.scrolled {
+  background: rgba(20, 14, 6, 0.95);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+}
 
-    .nav-logo {
-      font-family: 'Cinzel', serif;
-      font-size: 2.05rem;
-      font-weight: 700;
-      color: var(--copper);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
+.nav-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--copper);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
 
+
+/* Hamburger Menu */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 1.8rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 101;
+}
+
+@media (max-width: 768px) {
+  .nav-logo {
+    font-size: 1.45rem;           /* mniejsza nazwa na telefonie */
+  }
+  
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  .nav-links {
+    display: none;                /* ukryte na mobile */
+  }
+}
+
+/* Mobile Menu Panel */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(15,15,15,0.98);
+  z-index: 200;
+  display: none;
+  flex-direction: column;
+  padding-top: 90px;
+  padding-left: 2rem;
+}
+
+.mobile-menu.active {
+  display: flex;
+}
+
+.mobile-menu a {
+  font-size: 1.4rem;
+  padding: 1rem 0;
+  color: rgba(245,240,235,0.85);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.mobile-menu a:hover {
+  color: var(--copper);
+}
+
+/* Nav Links - Desktop */
     .nav-links {
       display: flex;
       gap: 2rem;
@@ -818,19 +894,24 @@
     }
 
     .nav-links a {
-      font-size: 1.6rem;
-      letter-spacing: 0.2em;
+      font-size: 1.05rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: rgba(245,240,235,0.65);
+      color: rgba(245,240,235,0.75);
       text-decoration: none;
       transition: color 0.2s;
       padding: 0.4rem 0;
     }
 
-    .nav-links a:hover { color: var(--copper); }
+    .nav-links a:hover { 
+      color: var(--copper); 
+    }
 
-    @media (max-width: 640px) {
-      .nav-links { display: none; }
+    /* Ukrywanie na mobile - zostawiamy, ale media query będzie nadpisane nowszym */
+    @media (max-width: 768px) {
+      .nav-links { 
+        display: none; 
+      }
     }
 
     /* ── Decorative corner bracket ── */
@@ -907,19 +988,39 @@
   <style>body { box-sizing: border-box; }</style>
  <meta property="og:title" content="Lampy i Dekoracje – Handmade Kraków" data-id="th-modified"><meta name="description" content="WWW2" data-id="th-modified"><meta property="og:description" content="WWW2" data-id="th-modified"><meta property="og:type" content="website" data-id="th-modified">
 </head>
- <body><!-- ── NAV ── -->
-  <nav id="navbar" role="navigation" aria-label="Główna nawigacja">
-   <div class="nav-logo">
+ <body>
+
+<!-- ── NAV ── -->
+<nav id="navbar" role="navigation" aria-label="Główna nawigacja">
+  <div class="nav-logo">
     Raw&nbsp;Pipe&nbsp;Studio
-   </div>
-   <ul class="nav-links">
+  </div>
+  
+  <!-- Hamburger Button -->
+  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+    ☰
+  </button>
+
+  <ul class="nav-links">
     <li><a href="#about">O nas</a></li>
     <li><a href="#offer">Oferta</a></li>
     <li><a href="#buy">Kup</a></li>
     <li><a href="#contact">Kontakt</a></li>
-   </ul>
-  </nav>
-  <div class="site-wrapper"><!-- ══════════════════════════════════
+  </ul>
+</nav>
+
+<!-- Mobile Menu Panel -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul style="list-style: none;">
+    <li><a href="#about">O nas</a></li>
+    <li><a href="#offer">Oferta</a></li>
+    <li><a href="#buy">Kup</a></li>
+    <li><a href="#contact">Kontakt</a></li>
+  </ul>
+</div>
+  <div class="site-wrapper">
+
+<!-- ══════════════════════════════════
      SECTION 1 — HERO
 ═══════════════════════════════════ -->
 <section id="hero" aria-label="Hero – Lampy i Dekoracje" style="height: 1080px;">
