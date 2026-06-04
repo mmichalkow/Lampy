@@ -988,6 +988,9 @@
   <style>body { box-sizing: border-box; }</style>
  <meta property="og:title" content="Lampy i Dekoracje – Handmade Kraków" data-id="th-modified"><meta name="description" content="WWW2" data-id="th-modified"><meta property="og:description" content="WWW2" data-id="th-modified"><meta property="og:type" content="website" data-id="th-modified">
 </head>
+
+
+
  <body>
 
 <!-- ── NAV ── -->
@@ -1540,5 +1543,42 @@ SECTION 5 — FOOTER / KONTAKT
   document.addEventListener("keydown", function(e) {
     if (e.key === "Escape") modal.style.display = "none";
   });
+
+<script>
+  // Hamburger Menu Functionality
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+      
+      // Zmiana ikony burgera na X
+      if (mobileMenu.classList.contains('active')) {
+        mobileMenuBtn.textContent = '✕';
+      } else {
+        mobileMenuBtn.textContent = '☰';
+      }
+    });
+  }
+
+  // Zamykanie menu po kliknięciu w link
+  document.querySelectorAll('.mobile-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+      mobileMenuBtn.textContent = '☰';
+    });
+  });
+
+  // Zamknięcie menu przy kliknięciu poza nim (opcjonalnie)
+  document.addEventListener('click', (e) => {
+    if (mobileMenu.classList.contains('active') && 
+        !mobileMenu.contains(e.target) && 
+        e.target !== mobileMenuBtn) {
+      mobileMenu.classList.remove('active');
+      mobileMenuBtn.textContent = '☰';
+    }
+  });
 </script>
+
 </body></html>
