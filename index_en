@@ -1,0 +1,1426 @@
+<!DOCTYPE html><html lang="pl" class="h-full">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <meta name="msapplication-TileColor" content="#1F1F1F">
+  <meta name="theme-color" content="#1F1F1F">
+
+  <title>Lamps and Dekoration – Handmade</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&amp;family=Playfair+Display:wght@400;600;700;900&amp;family=Montserrat:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    
+/* === MOBILE – wyłączamy przyciemnianie na telefonach === */
+@media (max-width: 768px) {
+  .process-photo-img,
+  .gallery-photo-img,
+  .gallery-hover {
+    filter: brightness(1) !important;   /* zawsze pełne jasne na telefonie */
+  }
+}
+
+/* === EFEKT PRZYCIEMNIENIA – Warsztat + Galeria === */
+.process-photo-img,
+.gallery-photo-img,
+.gallery-hover {
+  filter: brightness(0.8);           /* 20% przyciemnione na start */
+  transition: filter 0.3s ease-in-out; /* piękne, płynne przejście */
+}
+
+.process-photo-img:hover,
+.gallery-photo-img:hover,
+.gallery-hover:hover {
+  filter: brightness(1);             /* pełne rozświetlenie */
+}
+
+
+    /* LIGHTBOX */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.95);
+  overflow: auto;
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 95%;
+  max-height: 95%;
+  object-fit: contain;
+  box-shadow: 0 0 30px rgba(0,0,0,0.8);
+}
+
+.close {
+  position: absolute;
+  top: 25px;
+  right: 35px;
+  color: #fff;
+  font-size: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10000;
+  line-height: 1;
+}
+
+.close:hover {
+  color: #ffcc00;
+}
+
+    :root {
+      --anthracite: #1F1F1F;
+      --copper: #D9773F;
+      --copper-light: #E8935A;
+      --copper-dark: #B85F2A;
+      --white: #F5F0EB;
+      --gray-mid: #2E2E2E;
+      --gray-light: #3A3A3A;
+      --text-muted: #9A9A9A;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background-color: var(--anthracite);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    .site-wrapper {
+      width: 100%;
+      min-height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    /* ── Typography ── */
+    .font-cinzel { font-family: 'Cinzel', serif; }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-montserrat { font-family: 'Montserrat', sans-serif; }
+
+    /* ── Copper accent ── */
+    .text-copper { color: var(--copper); }
+    .bg-copper { background-color: var(--copper); }
+    .border-copper { border-color: var(--copper); }
+
+    /* ── Hero ── */
+#hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      max-height: 950px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background-color: #0a0a0a;
+    }
+
+    @media (max-width: 768px) {
+      #hero {
+        min-height: 90vh;
+        padding-top: 80px;
+      }
+      .hero-title {
+        font-size: clamp(2.5rem, 8.5vw, 5rem) !important;
+      }
+    }
+
+
+    .hero-photo-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none; 
+      border: none;
+    }
+
+    .hero-photo-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.75);
+      border: 1px dashed var(--copper);
+      color: var(--copper);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      text-align: center;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.55) 70%, rgba(10,10,10,0.92) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 0 1.5rem;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .hero-eyebrow::before,
+    .hero-eyebrow::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--copper);
+      opacity: 0.7;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.8rem, 7vw, 6.5rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.05em;
+      line-height: 1.05;
+      text-shadow: 0 4px 40px rgba(217,119,63,0.3), 0 2px 8px rgba(0,0,0,0.8);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(0.85rem, 1.8vw, 1.1rem);
+      font-weight: 300;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(245,240,235,0.75);
+    }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0.6;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, var(--copper), transparent);
+      animation: scroll-drop 1.8s ease-in-out infinite;
+    }
+
+    @keyframes scroll-drop {
+      0% { transform: scaleY(0); transform-origin: top; opacity: 1; }
+      50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+      100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
+    }
+
+    /* ── Industrial Divider ── */
+    .pipe-divider {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin: 0 auto;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .pipe-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--copper), transparent);
+      opacity: 0.4;
+    }
+
+    .pipe-rivet {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--copper);
+      opacity: 0.7;
+      margin: 0 6px;
+      box-shadow: 0 0 6px rgba(217,119,63,0.5);
+    }
+
+    .pipe-connector {
+      width: 18px;
+      height: 6px;
+      border: 1px solid var(--copper);
+      opacity: 0.5;
+      border-radius: 1px;
+      margin: 0 4px;
+    }
+
+/* ── Section base ── */
+    .section-pad {
+      padding: 7rem 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .section-pad {
+        padding: 4.5rem 1rem;
+      }
+    }
+
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .section-label::after {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 1px;
+      background: var(--copper);
+      opacity: 0.6;
+    }
+
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title span { color: var(--copper); }
+
+    /* ── Section 2: About ── */
+    #about {
+      background: linear-gradient(160deg, #1F1F1F 0%, #191409 60%, #1F1F1F 100%);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    }
+
+    .about-text p {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: rgba(245,240,235,0.78);
+      margin-bottom: 1.4rem;
+    }
+
+    .about-text .highlight-line {
+      color: var(--white);
+      font-weight: 500;
+      border-left: 3px solid var(--copper);
+      padding-left: 1rem;
+      margin: 1.5rem 0;
+      font-style: italic;
+      opacity: 0.95;
+    }
+
+    .bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin: 0.6rem 0;
+      font-size: 0.88rem;
+      color: rgba(245,240,235,0.8);
+      line-height: 1.6;
+    }
+
+    .bullet-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--copper);
+      margin-top: 0.55rem;
+      flex-shrink: 0;
+    }
+
+    /* ==================== GRIDS ==================== */
+    
+    /* Grid dla 4 zdjęć w sekcji Rzemiosło (2x2) */
+    .process-photos {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.4rem;
+      margin-bottom: 3.5rem;           /* <-- dodane */
+    }
+
+    /* Grid dla galerii lamp (Oferta) */
+    .lamp-photos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 4rem;             /* <-- to jest najważniejsze */
+    }
+
+    /* Desktop - sztywno 3 kolumny dla galerii */
+    @media (min-width: 1024px) {
+      .lamp-photos-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* Tablet */
+    @media (max-width: 768px) {
+      .process-photos {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .lamp-photos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        margin-bottom: 3.5rem;
+      }
+    }
+
+    /* Telefon */
+    @media (max-width: 640px) {
+      .process-photos,
+      .lamp-photos-grid {
+        grid-template-columns: 1fr;
+        margin-bottom: 3rem;
+      }
+    }
+    .process-photo-slot {
+      aspect-ratio: 1;
+      background: var(--gray-mid);
+      border: 1px dashed rgba(217,119,63,0.35);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+
+    .process-photo-slot:hover { border-color: var(--copper); }
+
+    .process-photo-slot .photo-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--copper);
+      opacity: 0.7;
+      text-align: center;
+      padding: 0 0.5rem;
+    }
+
+    .process-photo-slot .photo-icon {
+      color: var(--copper);
+      opacity: 0.4;
+    }
+
+    /* ── Section 3: Offer ── */
+    #offer {
+      background-color: var(--anthracite);
+    }
+
+@media (max-width: 640px) {
+      .process-photos,
+      .lamp-photos-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .lamp-photos-grid { grid-template-columns: 1fr; }
+    }
+
+    .lamp-photo-slot {
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, #242424, #1a1a1a);
+      border: 1px dashed rgba(217,119,63,0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .lamp-photo-slot:hover { border-color: rgba(217,119,63,0.7); }
+
+    .lamp-photo-slot .slot-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--copper);
+      opacity: 0.65;
+      text-align: center;
+      padding: 0 1rem;
+    }
+
+    .lamp-photo-slot .slot-num {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      color: rgba(217,119,63,0.15);
+      font-weight: 700;
+      position: absolute;
+      top: 0.8rem;
+      left: 1rem;
+    }
+
+    .product-card {
+      background: var(--gray-mid);
+      border: 1px solid rgba(217,119,63,0.2);
+      padding: 2.5rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--copper), var(--copper-dark));
+    }
+
+    @media (max-width: 640px) {
+      .product-card { padding: 2rem 1.5rem 2rem 2rem; }
+    }
+
+    .product-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .product-subtitle {
+      font-size: 0.8rem;
+      color: var(--copper);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.8rem;
+      font-weight: 500;
+    }
+
+    .product-specs {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .product-specs li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      padding: 0.45rem 0;
+      font-size: 0.87rem;
+      color: rgba(245,240,235,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .product-specs li .spec-dot {
+      color: var(--copper);
+      margin-top: 0.1rem;
+      flex-shrink: 0;
+    }
+
+    .price-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: linear-gradient(135deg, var(--copper), var(--copper-dark));
+      padding: 0.75rem 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .price-text {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 0.05em;
+    }
+
+    .delivery-info {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .delivery-info span { color: rgba(245,240,235,0.6); }
+
+    .certifications {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .cert-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .cert-item i { color: var(--copper); }
+
+    /* ── Section 4: Buy Now ── */
+    #buy {
+      background: linear-gradient(160deg, #191409 0%, #1F1F1F 50%, #191409 100%);
+      text-align: center;
+    }
+
+    .buy-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.8rem;
+    }
+
+    .buy-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 3.5rem;
+    }
+
+    .buy-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .buy-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: transparent;
+      border: 2px solid var(--copper);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 1.1rem 2.2rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .buy-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--copper);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s ease;
+      z-index: 0;
+    }
+
+    .buy-btn:hover::before { transform: scaleX(1); }
+    .buy-btn:hover { color: white; }
+    .buy-btn > * { position: relative; z-index: 1; }
+
+    .buy-btn.primary {
+      background: var(--copper);
+      color: white;
+    }
+
+    .buy-btn.primary::before { background: var(--copper-light); }
+
+    .pickup-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .pickup-note i { color: var(--copper); }
+
+    /* ── Section 5: Footer ── */
+    #contact {
+      background: #141414;
+      padding: 5rem 1.5rem 3rem;
+      border-top: 1px solid rgba(217,119,63,0.2);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 3rem;
+      max-width: 1000px;
+      margin: 0 auto 4rem;
+    }
+
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+ .contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  justify-content: center !important;
+}
+
+    .contact-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(217,119,63,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-icon-wrap i { color: var(--copper); }
+
+    .contact-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .contact-value {
+      font-size: 0.9rem;
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .footer-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--copper);
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── Animations on scroll ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+/* ── NAV BAR ── */
+#navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0,0,0,0.15);
+  transition: all 0.4s ease;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+#navbar.scrolled {
+  background: rgba(20, 14, 6, 0.95);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+}
+
+.nav-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--copper);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.8rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.nav-links a {
+  font-size: 1.05rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(245,240,235,0.85);
+  text-decoration: none;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.nav-links a:hover { 
+  color: var(--copper); 
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  #navbar {
+    padding: 1rem 1rem 0.8rem;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  
+  .nav-logo {
+    font-size: 1.55rem;
+  }
+  
+  .nav-links {
+    gap: 1.4rem;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .nav-links a {
+    font-size: 0.97rem;
+  }
+}
+
+
+ </style>
+  <style>body { box-sizing: border-box; }</style>
+ <meta property="og:title" content="Lampy i Dekoracje – Handmade Kraków" data-id="th-modified"><meta name="description" content="WWW2" data-id="th-modified"><meta property="og:description" content="WWW2" data-id="th-modified"><meta property="og:type" content="website" data-id="th-modified">
+</head>
+
+
+
+ <body>
+
+<!-- ── NAV ── -->
+<nav id="navbar" role="navigation" aria-label="Główna nawigacja">
+  <div class="nav-logo">
+    Raw&nbsp;Pipe&nbsp;Studio
+  </div>
+
+  <ul class="nav-links">
+    <li><a href="#about">About us</a></li>
+    <li><a href="#offer">Offer</a></li>
+    <li><a href="#buy">Buy</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+
+  <div class="site-wrapper">
+
+<!-- ══════════════════════════════════
+     SECTION 1 — HERO
+═══════════════════════════════════ -->
+<section id="hero" aria-label="Hero – Lamps and Decorations" style="height: 1080px;">
+    
+    <!-- Twoje zdjęcie jako pełne tło -->
+    <div class="hero-photo-placeholder" role="img" aria-label="Lampa handmade vintage loft">
+      <img src="https://i.ibb.co/cXkXb8mV/lamp.jpg" alt="Lampa retro loft – handmade" style="width: 100%; 
+                  height: 100%; 
+                  object-fit: cover; 
+                  object-position: center;
+                  filter: brightness(0.8);">
+    </div>
+
+    <!-- Delikatny overlay (żeby tekst był czytelny) – możesz usunąć jeśli nie chcesz przyciemnienia -->
+    <div class="hero-overlay"></div>
+
+    <!-- Treść hero (tytuł, podtytuł itp.) -->
+    <div class="hero-content">
+     <p class="hero-eyebrow" id="hero-eyebrow-text"> · Handmade · </p>
+     <h1 class="hero-title" id="hero-title-el">Lamps and Decorations</h1>
+     <p class="hero-subtitle" id="hero-subtitle-el">Unique&nbsp;&nbsp;•&nbsp;&nbsp;Handcrafted&nbsp;&nbsp;•&nbsp;&nbsp;One-of-a-kind</p>
+    </div>
+
+    <!-- Scroll hint (możesz zostawić lub usunąć) -->
+    <div class="hero-scroll-hint" aria-hidden="true">
+     <div class="scroll-line"></div>
+    </div>
+
+   </section>
+   
+   <!-- Industrial pipe divider -->
+   <div style="padding: 1px 2rem; background: #1a1a1a;">
+    <div class="pipe-divider">
+     <div class="pipe-line"></div>
+     <div class="pipe-rivet"></div>
+     <div class="pipe-connector"></div>
+     <div class="pipe-rivet"></div>
+     <div class="pipe-connector"></div>
+     <div class="pipe-rivet"></div>
+     <div class="pipe-line"></div>
+    </div>
+   </div><!-- ══════════════════════════════════
+     SECTION 2 — O POMYŚLE
+═══════════════════════════════════ -->
+   <section id="about" class="section-pad" aria-labelledby="about-heading">
+    <div class="section-inner">
+     <div class="about-grid"><!-- LEFT: Text -->
+      <div class="about-text fade-up">
+       <p class="section-label">Craftsmanship</p>
+       <h2 class="section-title" id="about-heading">How were these<br><span>lamps and decorations created?</span></h2>
+       <p>It all started with an idea that had been growing in my mind for years – first as a hobby, which I eventually decided to share with others.</p>
+       
+       <p>I didn't want mass production – I wanted every lamp to have its own unique <strong style="color: var(--white)">character and soul.</strong></p>
+       
+       <p>After many experiments, expanding the workshop and perfecting the technique, I now make every piece from scratch, by hand, and in a single copy only.</p>
+       
+       <p class="highlight-line">This is not a product from China. This is a piece of my vision,<br>
+        which you can place on your desk.</p>
+      </div>
+
+
+<!-- RIGHT: 2×2 process photos -->
+
+      <div class="process-photos fade-up" style="transition-delay: 0.15s;" aria-label="Zdjęcia z procesu produkcji">
+      <!-- PROCESS PHOTO 1 — replace with <img src="/wz01.jpeg" ...> -->
+       
+       
+       
+       
+       
+       
+       
+       <div class="process-photo-slot" role="img" aria-label="Zdjęcie 1: warsztat">
+        <div class="corner-bracket tl"></div>
+        <div class="corner-bracket tr"></div>
+        <div class="corner-bracket bl"></div>
+        <div class="corner-bracket br"></div>
+        
+       <img src="https://i.ibb.co/WSmt5Th/IMG-9598.jpg" 
+       alt="Warsztat / narzędzia" 
+       class="process-photo-img lightbox gallery-hover" 
+       style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+       </div>
+
+
+
+
+
+
+
+
+
+       <!-- PROCESS PHOTO 2 — replace with <img src="YOUR_PHOTO.jpg" ...> -->
+       <div class="process-photo-slot" role="img" aria-label="Zdjęcie 2: rury żeliwne">
+        <div class="corner-bracket tl"></div>
+        <div class="corner-bracket tr"></div>
+        <div class="corner-bracket bl"></div>
+        <div class="corner-bracket br"></div>
+        
+      <img src="https://i.ibb.co/Cs6MSd9S/IMG-7271.jpg" 
+      alt="Warsztat / narzędzia" 
+      class="process-photo-img lightbox gallery-hover" 
+      style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+       </div>
+
+       <!-- PROCESS PHOTO 3 — replace with <img src="YOUR_PHOTO.jpg" ...> -->
+       <div class="process-photo-slot" role="img" aria-label="Zdjęcie 3: malowanie">
+        <div class="corner-bracket tl"></div>
+        <div class="corner-bracket tr"></div>
+        <div class="corner-bracket bl"></div>
+        <div class="corner-bracket br"></div>
+        
+      <img src="https://i.ibb.co/84txQXGZ/IMG-9599.jpg" alt="Warsztat / narzędzia" class="process-photo-img lightbox gallery-hover" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+       </div>
+
+       <!-- PROCESS PHOTO 4 — replace with <img src="YOUR_PHOTO.jpg" ...> -->
+       <div class="process-photo-slot" role="img" aria-label="Zdjęcie 4: składanie lampy">
+        <div class="corner-bracket tl"></div>
+        <div class="corner-bracket tr"></div>
+        <div class="corner-bracket bl"></div>
+        <div class="corner-bracket br"></div>
+      <img src="https://i.ibb.co/3YpF6Lzj/IMG-9619.jpg" alt="Warsztat / narzędzia" class="process-photo-img lightbox gallery-hover" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Industrial pipe divider -->
+   <div style="padding: 1px 2rem; background: #191409;">
+    <div class="pipe-divider">
+     <div class="pipe-line"></div>
+     <div class="pipe-rivet"></div>
+     <div class="pipe-connector"></div>
+     <div class="pipe-rivet"></div>
+     <div class="pipe-connector"></div>
+     <div class="pipe-rivet"></div>
+     <div class="pipe-line"></div>
+    </div>
+   </div><!-- ══════════════════════════════════
+     SECTION 3 — OFERTA
+═══════════════════════════════════ -->
+   <section id="offer" class="section-pad" aria-labelledby="offer-heading">
+    <div class="section-inner">
+     <div class="fade-up" style="text-align:center; margin-bottom: 3.5rem;">
+      <p class="section-label" style="justify-content:center;">Oferta</p>
+      <h2 class="section-title" id="offer-heading" style="text-align:center;">Our vintage/loft style<br><span>lamps and decorations</span></h2>
+     </div><!-- 2×3 Lamp Photos Grid -->
+
+
+     <div class="lamp-photos-grid fade-up" aria-label="Galeria zdjęć lamp"><!-- LAMP PHOTO 1 — replace with <img src="YOUR_LAMP_PHOTO.jpg" style="width:100%;height:100%;object-fit:cover;" alt="..."> -->
+      <div class="lamp-photo-slot" role="img" aria-label="Zdjęcie lampy – kąt 1">
+       <div class="corner-bracket tl"></div>
+       <div class="corner-bracket tr"></div>
+       <div class="corner-bracket bl"></div>
+       <div class="corner-bracket br"></div><span class="slot-num">01</span> 
+       
+       <img src="https://i.ibb.co/ynwJKxMC/WZ01.jpg" class="lamp-photo-img lightbox gallery-hover"  style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+        </div>
+      
+      <!-- LAMP PHOTO 2 — replace with <img src="YOUR_LAMP_PHOTO.jpg" style="width:100%;height:100%;object-fit:cover;" alt="..."> -->
+      <div class="lamp-photo-slot" role="img" aria-label="Zdjęcie lampy zapalona">
+       <div class="corner-bracket tl"></div>
+       <div class="corner-bracket tr"></div>
+       <div class="corner-bracket bl"></div>
+       <div class="corner-bracket br"></div><span class="slot-num">02</span> 
+       
+       <img src="https://i.ibb.co/p6mPbSZX/wz02.jpg" class="lamp-photo-img lightbox gallery-hover" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+      </div>
+      
+      <!-- LAMP PHOTO 3 — replace with <img src="YOUR_LAMP_PHOTO.jpg" style="width:100%;height:100%;object-fit:cover;" alt="..."> -->
+      <div class="lamp-photo-slot" role="img" aria-label="Zdjęcie lampy detal">
+       <div class="corner-bracket tl"></div>
+       <div class="corner-bracket tr"></div>
+       <div class="corner-bracket bl"></div>
+       <div class="corner-bracket br"></div><span class="slot-num">03</span> 
+       
+       <img src="https://i.ibb.co/VYBrGHGV/IMG-9517.jpg" class="lamp-photo-img lightbox gallery-hover" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+      </div>
+      
+      <!-- LAMP PHOTO 4 — replace with <img src="YOUR_LAMP_PHOTO.jpg" style="width:100%;height:100%;object-fit:cover;" alt="..."> -->
+      <div class="lamp-photo-slot" role="img" aria-label="Lampa w aranżacji wnętrza">
+       <div class="corner-bracket tl"></div>
+       <div class="corner-bracket tr"></div>
+       <div class="corner-bracket bl"></div>
+       <div class="corner-bracket br"></div><span class="slot-num">04</span> 
+       
+       <img src="https://i.ibb.co/1YHVRSrV/IMG-9514.jpg" class="lamp-photo-img lightbox gallery-hover" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+      </div>
+      
+      <!-- LAMP PHOTO 5 — replace with <img src="YOUR_LAMP_PHOTO.jpg" style="width:100%;height:100%;object-fit:cover;" alt="..."> -->
+      <div class="lamp-photo-slot" role="img" aria-label="Zdjęcie lampy detal">
+       <div class="corner-bracket tl"></div>
+       <div class="corner-bracket tr"></div>
+       <div class="corner-bracket bl"></div>
+       <div class="corner-bracket br"></div><span class="slot-num">03</span> 
+       
+       <img src="https://i.ibb.co/VYjgwpB0/VMHki.jpg" class="lamp-photo-img lightbox gallery-hover" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+      </div>
+      
+      <!-- LAMP PHOTO 6 — replace with <img src="YOUR_LAMP_PHOTO.jpg" style="width:100%;height:100%;object-fit:cover;" alt="..."> -->
+      <div class="lamp-photo-slot" role="img" aria-label="Lampa w aranżacji wnętrza">
+       <div class="corner-bracket tl"></div>
+       <div class="corner-bracket tr"></div>
+       <div class="corner-bracket bl"></div>
+       <div class="corner-bracket br"></div><span class="slot-num">04</span> 
+       
+       <img src="https://i.ibb.co/gMKJRXV5/savw0.jpg" class="lamp-photo-img lightbox gallery-hover" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+        
+        </div>
+
+      
+     </div><!-- Product description card -->
+     <div class="product-card fade-up" style="transition-delay:0.1s;">
+      <h3 class="product-title">Industrial Table Lamp</h3>
+      <p class="product-subtitle">Every piece is unique</p>
+      <ul class="product-specs" aria-label="Product specifications">
+       <li><span class="spec-dot">▸</span>wooden base (pine + stain and varnish)</li>
+       <li><span class="spec-dot">▸</span>cast iron pipe construction (anthracite with hammered effect)</li>
+       <li><span class="spec-dot">▸</span>E27 socket + retro Edison bulb 2200–2700K, 230V</li>
+       <li><span class="spec-dot">▸</span>1.5 or 2 m fabric cable + switch + retro plug</li>
+       <li><span class="spec-dot">▸</span>felt pad underneath</li>
+      </ul>
+      <div class="price-badge" aria-label="Price from 219 zł"><i data-lucide="tag" style="width:18px;height:18px;color:white;" aria-hidden="true"></i> <span class="price-text" id="price-display-el">from 219 zł/49 EUR</span>
+      </div>
+   <div class="delivery-info">
+        <span>⏱ Production time: 2–4 business days</span><br>
+        <span>✦ Perfect for desk, bedside table, windowsill</span><br>
+        <span>✦ Great as a gift, for loft or vintage/steampunk interiors</span>
+      </div>
+      <div class="certifications">
+       <div class="cert-item">
+        <i data-lucide="shield-check" style="width:14px;height:14px;" aria-hidden="true"></i> Safe and fast shipping
+       </div>
+       <div class="cert-item">
+        <i data-lucide="file-text" style="width:14px;height:14px;" aria-hidden="true"></i> Declaration of Conformity
+       </div>
+       <div class="cert-item">
+        <i data-lucide="hash" style="width:14px;height:14px;" aria-hidden="true"></i> Serial number
+       </div>
+       <div class="cert-item">
+        <i data-lucide="book-open" style="width:14px;height:14px;" aria-hidden="true"></i> Instruction manual
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Industrial pipe divider -->
+   <div style="padding: 1px 2rem; background: #141404;">
+    <div class="pipe-divider">
+     <div class="pipe-line"></div>
+     <div class="pipe-rivet"></div>
+     <div class="pipe-connector"></div>
+     <div class="pipe-rivet"></div>
+     <div class="pipe-connector"></div>
+     <div class="pipe-rivet"></div>
+     <div class="pipe-line"></div>
+    </div>
+   </div><!-- ══════════════════════════════════
+     SECTION 4 — KUP TERAZ
+═══════════════════════════════════ -->
+   <section id="buy" class="section-pad" aria-labelledby="buy-heading">
+    <div class="section-inner" style="max-width:800px;">
+     
+      <h2 class="buy-title" id="buy-heading">Want to have it at home?</h2>
+      <p class="buy-subtitle">Choose your preferred purchase method</p>
+      <div class="buy-buttons" role="group" aria-label="Przyciski zakupu"><!-- REPLACE href="#" WITH YOUR ACTUAL LISTING LINKS --> 
+        <a href="https://www.olx.pl/oferty/uzytkownik/165VJ/" class="buy-btn" target="_blank" rel="noopener noreferrer" aria-label="Buy on OLX"> <i data-lucide="shopping-bag" style="width:16px;height:16px;" aria-hidden="true"></i> Buy on  OLX </a> 
+        <a href="https://www.etsy.com/pl/shop/RetroVintageLamps" class="buy-btn" target="_blank" rel="noopener noreferrer" aria-label="Buy on Etsy"> <i data-lucide="globe" style="width:16px;height:16px;" aria-hidden="true"></i> Buy on  Etsy </a> 
+        <a href="https://allegrolokalnie.pl/uzytkownik/Djinn_" class="buy-btn" target="_blank" rel="noopener noreferrer" aria-label="Buy on Allegro Lokalnie"> <i data-lucide="store" style="width:16px;height:16px;" aria-hidden="true"></i> Buy on Allegro Lokalnie </a> 
+        <a href="#contact" class="buy-btn" aria-label="Message me directly"> <i data-lucide="message-circle" style="width:16px;height:16px;" aria-hidden="true"></i> Message me directly </a>
+      </div>
+      <p class="pickup-note"><i data-lucide="map-pin" style="width:14px;height:14px;" aria-hidden="true"></i> Personal pickup available in Kraków – let me know!</p>
+     </div>
+    
+   </section><!-- ══════════════════════════════════
+     
+
+
+SECTION 5 — FOOTER / KONTAKT
+═══════════════════════════════════ -->
+   <footer id="contact" role="contentinfo" aria-labelledby="contact-heading">
+    <div style="max-width:1000px; margin:0 auto; padding: 0 1.5rem;">
+
+<!-- Divider top -->
+     <div style="text-align:center; margin-bottom: 3.5rem;">
+      <p class="section-label" style="justify-content:center; margin-bottom:1rem; font-size:0.6rem;"></p>
+      <h2 class="section-title" id="contact-heading" style="text-align:center; margin-bottom:0;"><span>Contact</span></h2>
+     </div>
+     <div class="contact-grid fade-up">
+
+<!-- Phone -->
+      <div class="contact-item">
+       <div class="contact-icon-wrap"><i data-lucide="phone" style="width:20px;height:20px;" aria-hidden="true"></i>
+       </div>
+       <div>
+        <p class="contact-label">Phone</p><!-- REPLACE WITH YOUR PHONE NUMBER -->
+        <p class="contact-value" id="contact-phone-el">+48 694 224 895</p>
+       </div>
+      </div>
+
+
+<!-- Email -->
+<div class="contact-item">
+  <div class="contact-icon-wrap">
+    <i data-lucide="mail" style="width:20px;height:20px;" aria-hidden="true"></i>
+  </div>
+  <div>
+    <p class="contact-label">Email</p>
+    <!-- REPLACE WITH YOUR EMAIL -->
+    <a href="mailto:contact@rawpipestudio.pl"
+       class="contact-value" 
+       id="contact-email-el">
+       contact@rawpipestudio.pl
+    </a>
+  </div>
+</div>
+      
+<!-- Instagram – TYLKO NAZWA KLIKALNA -->
+<div class="contact-item">
+  <div class="contact-icon-wrap">
+    <i data-lucide="instagram" style="width:20px;height:20px;" aria-hidden="true"></i>
+  </div>
+  <div>
+    <p class="contact-label">Instagram</p>
+    <a href="https://www.instagram.com/raw_pipe_studio/" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       class="contact-value" 
+       id="contact-instagram-el"
+       style="text-decoration: none; color: inherit;">
+      @raw_pipe_studio
+    </a>
+  </div>
+</div>
+</div>
+
+     <!-- Bottom line -->
+     <div class="footer-bottom">
+      <p class="footer-logo" aria-hidden="true">Raw&nbsp;Pipe&nbsp;Studio</p>
+      <p class="footer-copy">© 2026 – All lamps made with passion</p>
+      <p style="margin-top:0.6rem; font-size:0.65rem; color:rgba(154,154,154,0.4); letter-spacing:0.1em;">Rękodzieło · Vintage · Industrial · Steampunk</p>
+     </div>
+    </div>
+   </footer>
+  </div><!-- end site-wrapper -->
+  <script>
+  // ── Lucide icons
+  lucide.createIcons();
+
+  // ── Navbar scroll effect
+  const navbar = document.getElementById('navbar');
+  const siteWrapper = document.querySelector('.site-wrapper');
+
+  siteWrapper.addEventListener('scroll', () => {
+    if (siteWrapper.scrollTop > 60) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+
+  // ── Intersection Observer for fade-up animations
+  const fadeEls = document.querySelectorAll('.fade-up');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  fadeEls.forEach(el => observer.observe(el));
+
+  // ── Smooth scroll for nav anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const target = link.getAttribute('href');
+      if (target === '#') return;
+      const targetEl = document.querySelector(target);
+      if (targetEl) {
+        e.preventDefault();
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // ── Element SDK initialization
+  const defaultConfig = {
+    hero_title: 'Lampy i Dekoracje',
+    hero_subtitle: 'Wyjątkowe • Ręcznie robione • Unikatowe',
+    contact_phone: '+48 694 224 895',
+    contact_email: 'kontakt@rawpipestudio.pl',
+    contact_instagram: '@raw_pipe_studio',
+    product_price: 'od 219 zł',
+    background_color: '#1F1F1F',
+    copper_color: '#D9773F',
+    text_color: '#F5F0EB',
+    surface_color: '#2E2E2E',
+    font_family: 'Cinzel',
+    font_size: 16
+  };
+
+  window.elementSdk.init({
+    defaultConfig,
+    onConfigChange: async (config) => {
+      // Text content updates
+      const heroTitle = document.getElementById('hero-title-el');
+      const heroSubtitle = document.getElementById('hero-subtitle-el');
+      const priceDisplay = document.getElementById('price-display-el');
+      const phoneEl = document.getElementById('contact-phone-el');
+      const emailEl = document.getElementById('contact-email-el');
+      const instagramEl = document.getElementById('contact-instagram-el');
+
+      if (heroTitle) heroTitle.textContent = config.hero_title || defaultConfig.hero_title;
+      if (heroSubtitle) heroSubtitle.textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+      if (priceDisplay) priceDisplay.textContent = config.product_price || defaultConfig.product_price;
+      if (phoneEl) phoneEl.textContent = config.contact_phone || defaultConfig.contact_phone;
+      if (emailEl) emailEl.textContent = config.contact_email || defaultConfig.contact_email;
+      if (instagramEl) instagramEl.textContent = config.contact_instagram || defaultConfig.contact_instagram;
+
+      // Color updates
+      const bg = config.background_color || defaultConfig.background_color;
+      const copper = config.copper_color || defaultConfig.copper_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const surface = config.surface_color || defaultConfig.surface_color;
+
+      document.body.style.backgroundColor = bg;
+      document.documentElement.style.setProperty('--anthracite', bg);
+      document.documentElement.style.setProperty('--copper', copper);
+      document.documentElement.style.setProperty('--white', textColor);
+      document.documentElement.style.setProperty('--gray-mid', surface);
+
+      // Font updates
+      const font = config.font_family || defaultConfig.font_family;
+      const size = config.font_size || defaultConfig.font_size;
+      const fallback = 'Georgia, serif';
+
+      document.querySelectorAll('.hero-title, .section-title, .buy-title, .footer-logo, .product-title, .nav-logo').forEach(el => {
+        el.style.fontFamily = `${font}, ${fallback}`;
+        el.style.fontSize = '';
+      });
+      document.querySelectorAll('.about-text p, .bullet-item, .delivery-info, .footer-copy, .product-specs li').forEach(el => {
+        el.style.fontFamily = `Montserrat, sans-serif`;
+        el.style.fontSize = `${size}px`;
+      });
+    },
+    mapToCapabilities: (config) => ({
+      recolorables: [
+        {
+          get: () => config.background_color || defaultConfig.background_color,
+          set: (value) => { config.background_color = value; window.elementSdk.setConfig({ background_color: value }); }
+        },
+        {
+          get: () => config.surface_color || defaultConfig.surface_color,
+          set: (value) => { config.surface_color = value; window.elementSdk.setConfig({ surface_color: value }); }
+        },
+        {
+          get: () => config.text_color || defaultConfig.text_color,
+          set: (value) => { config.text_color = value; window.elementSdk.setConfig({ text_color: value }); }
+        },
+        {
+          get: () => config.copper_color || defaultConfig.copper_color,
+          set: (value) => { config.copper_color = value; window.elementSdk.setConfig({ copper_color: value }); }
+        }
+      ],
+      borderables: [],
+      fontEditable: {
+        get: () => config.font_family || defaultConfig.font_family,
+        set: (value) => { config.font_family = value; window.elementSdk.setConfig({ font_family: value }); }
+      },
+      fontSizeable: {
+        get: () => config.font_size || defaultConfig.font_size,
+        set: (value) => { config.font_size = value; window.elementSdk.setConfig({ font_size: value }); }
+      }
+    }),
+    mapToEditPanelValues: (config) => new Map([
+      ['hero_title', config.hero_title || defaultConfig.hero_title],
+      ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
+      ['contact_phone', config.contact_phone || defaultConfig.contact_phone],
+      ['contact_email', config.contact_email || defaultConfig.contact_email],
+      ['contact_instagram', config.contact_instagram || defaultConfig.contact_instagram],
+      ['product_price', config.product_price || defaultConfig.product_price]
+    ])
+  });
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e41ad46b7ccbf60',t:'MTc3NDgxNjY5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+ 
+   
+<!-- LIGHTBOX MODAL -->
+<div id="imageModal" class="modal">
+  <span class="close">×</span>
+  <img class="modal-content" id="modalImg" alt="">
+</div>
+
+<script>
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImg");
+  const closeBtn = document.querySelector(".close");
+
+  document.querySelectorAll("img.process-photo-img, img.lamp-photo-img, img.lightbox, img.gallery-hover").forEach(img => {
+    img.style.cursor = "zoom-in";
+    img.addEventListener("click", function() {
+      modal.style.display = "block";
+      modalImg.src = this.src;
+    });
+  });
+
+  closeBtn.addEventListener("click", () => modal.style.display = "none");
+  modalImg.addEventListener("click", () => modal.style.display = "none");
+  modal.addEventListener("click", function(e) {
+    if (e.target === modal) modal.style.display = "none";
+  });
+
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape" && modal.style.display === "block") {
+      modal.style.display = "none";
+    }
+  });
+</script>
+</body>
+</html>
